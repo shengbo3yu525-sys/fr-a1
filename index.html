@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>法语 A1 词汇复习</title>
+<meta name="theme-color" content="#1f3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="法语A1">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --fg:#1a1d21; --muted:#6b7280; --line:#e3e6ea;
+  --accent:#2f6fd0; --accent-fg:#fff; --ok:#1f9d55; --bad:#d64545; --warn:#c98a00;
+  --b1:#d64545; --b2:#e08a3c; --b3:#d8b022; --b4:#5aa84f; --b5:#2f7fd0; --b0:#b8bec7;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
+  --radius:14px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --card:#1c1f25; --fg:#e8eaed; --muted:#9aa2ad; --line:#2b3038;
+  --accent:#4d90e8; --accent-fg:#fff; --ok:#43b96b; --bad:#f0736b; --warn:#e0a83a;
+  --b0:#4a515b;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;line-height:1.5;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+  overscroll-behavior-y:none;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:var(--accent)}
+.wrap{max-width:640px;margin:0 auto;padding:12px 14px 20px}
+h1,h2,h3{margin:0 0 8px}
+h1{font-size:20px}
+h2{font-size:17px;margin-top:4px}
+h3{font-size:15px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.tiny{font-size:12px}
+.center{text-align:center}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;border:1px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center}
+.row.wrap-r{flex-wrap:wrap}
+.spread{justify-content:space-between}
+.grow{flex:1}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 16px;font-weight:600;font-size:15px;min-height:48px;
+  transition:transform .06s ease, background .15s ease;
+}
+.btn:active{transform:scale(.975)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:transparent}
+.btn.ok{background:var(--ok);color:#fff;border-color:transparent}
+.btn.bad{background:var(--bad);color:#fff;border-color:transparent}
+.btn.warn{background:var(--warn);color:#fff;border-color:transparent}
+.btn.ghost{background:transparent}
+.btn.sm{padding:7px 11px;min-height:36px;font-size:13px;border-radius:9px}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-grid.three{grid-template-columns:1fr 1fr 1fr}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 14px 8px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:10px;padding-top:calc(10px + env(safe-area-inset-top))}
+.topbar .title{font-weight:700;font-size:16px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- bottom nav ---------- */
+nav.tabs{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;
+  background:var(--card);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+nav.tabs button{flex:1;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:11px;font-weight:600}
+nav.tabs button .ic{font-size:19px;line-height:1}
+nav.tabs button.active{color:var(--accent)}
+.view{display:none}
+.view.active{display:block}
+
+/* ---------- study ---------- */
+.study-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.progress{height:6px;border-radius:99px;background:var(--line);overflow:hidden;flex:1}
+.progress > i{display:block;height:100%;background:var(--accent);transition:width .25s ease}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+  padding:20px 16px;min-height:210px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.qtype{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
+.qword{font-size:34px;font-weight:700;line-height:1.25;word-break:break-word}
+.qword.zh{font-size:28px}
+.qipa{font-size:15px;color:var(--muted);margin-top:6px;font-family:"Menlo","Segoe UI",sans-serif}
+.qhint{font-size:13px;color:var(--muted);margin-top:10px}
+.chip{display:inline-block;background:var(--line);color:var(--fg);border-radius:99px;padding:2px 9px;font-size:12px;font-weight:600;margin:0 3px}
+.answer{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);text-align:center}
+.ansmain{font-size:26px;font-weight:700}
+.ansmain.zh{font-size:24px}
+.acc-wrong{color:var(--bad);text-decoration:underline;text-decoration-style:wavy;text-underline-offset:4px}
+.verdict{font-size:15px;font-weight:700;margin:8px 0}
+.verdict.ok{color:var(--ok)}
+.verdict.bad{color:var(--bad)}
+.verdict.warn{color:var(--warn)}
+.notebox{background:var(--bg);border-radius:10px;padding:9px 11px;font-size:13px;color:var(--muted);margin-top:10px;text-align:left;line-height:1.55}
+input[type=text],input[type=number],select{
+  width:100%;padding:13px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);
+  font-size:19px;text-align:center;outline:none;
+}
+input[type=text]:focus{border-color:var(--accent)}
+input.sm{font-size:15px;padding:9px 10px;text-align:left}
+.accentbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 8px}
+.accentbar button{
+  min-width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);
+  font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:center
+}
+.accentbar button:active{background:var(--accent);color:#fff}
+
+/* ---------- stats ---------- */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat .n{font-size:24px;font-weight:700;line-height:1.15}
+.stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:130px;margin:14px 0 4px}
+.bars .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+.bars .bar .fill{width:100%;border-radius:6px 6px 3px 3px;min-height:3px;transition:height .3s ease}
+.bars .bar .lab{font-size:11px;color:var(--muted)}
+.bars .bar .val{font-size:12px;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.heat{display:flex;gap:3px;overflow-x:auto;padding-bottom:6px}
+.heat .wk{display:flex;flex-direction:column;gap:3px}
+.heat .d{width:11px;height:11px;border-radius:3px;background:var(--b0);opacity:.35}
+.heat .d.l1{background:#9fd3a6;opacity:1}
+.heat .d.l2{background:#5cba6e;opacity:1}
+.heat .d.l3{background:#2f9e4f;opacity:1}
+.heat .d.l4{background:#1d7a38;opacity:1}
+
+/* ---------- table ---------- */
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{position:sticky;top:0;background:var(--card);z-index:2;font-size:12px;color:var(--muted);cursor:pointer;user-select:none}
+th.sorted{color:var(--accent)}
+tr:last-child td{border-bottom:none}
+td.frcell{font-weight:600;white-space:normal;min-width:110px}
+td.zhcell{white-space:normal;min-width:120px;color:var(--muted)}
+.boxdot{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;color:#fff;font-size:11px;font-weight:700}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filters select,.filters input{width:auto;flex:1;min-width:110px;font-size:14px;padding:9px 10px;text-align:left}
+.tagbtns{display:flex;flex-wrap:wrap;gap:6px}
+.tagbtn{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
+.tagbtn.on{background:var(--accent);color:#fff;border-color:transparent}
+.settingrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.settingrow:last-child{border-bottom:none}
+.settingrow .lab{font-size:15px}
+.settingrow .desc{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.45}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{padding:8px 12px;font-size:14px;font-weight:600;background:var(--card)}
+.seg button.on{background:var(--accent);color:#fff}
+.switch{width:50px;height:30px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .2s}
+.switch.on{background:var(--ok)}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:99px;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch.on::after{transform:translateX(20px)}
+.toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:99;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+.toast.show{opacity:.94}
+.empty{text-align:center;color:var(--muted);padding:36px 12px;font-size:14px;line-height:1.7}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}
+.modal.show{display:flex}
+.modal .inner{background:var(--card);width:100%;max-width:640px;border-radius:16px 16px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:86vh;overflow:auto}
+.kbd{font-family:Menlo,monospace;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:12px}
+.leechitem{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--card)}
+@media (min-width:560px){ .stat-grid{grid-template-columns:repeat(4,1fr)} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title" id="topTitle">法语 A1 词汇复习</div>
+  <button class="btn sm ghost" id="themeBtn" title="深色/浅色">🌓</button>
+</div>
+
+<!-- ============ 首页 ============ -->
+<section class="view active" id="view-home"><div class="wrap">
+  <div class="card">
+    <div class="row spread">
+      <div>
+        <div class="tiny muted">今日待复习</div>
+        <div style="font-size:40px;font-weight:800;line-height:1.1" id="dueCount">0</div>
+      </div>
+      <div class="center">
+        <div class="tiny muted">今日可学新词</div>
+        <div style="font-size:22px;font-weight:700" id="newLeft">0</div>
+        <div class="tiny muted" style="margin-top:8px">连续 <b id="streakNum">0</b> 天</div>
+      </div>
+    </div>
+    <button class="btn primary block" id="startBtn" style="margin-top:14px;font-size:17px">开始今天的复习</button>
+    <div class="row" style="margin-top:8px;gap:8px">
+      <button class="btn sm grow" id="startNewOnly">只学新词</button>
+      <button class="btn sm grow" id="startDueOnly">只复习旧词</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row spread" style="margin-bottom:8px">
+      <h3 style="margin:0">按主题筛选（单元）</h3>
+      <button class="btn sm ghost" id="tagAll">全选</button>
+    </div>
+    <div class="tagbtns" id="tagFilter"></div>
+    <div class="tiny muted" style="margin-top:8px">只有被选中的单元会进入学习队列。</div>
+  </div>
+
+  <div class="card">
+    <h3>今日进度</h3>
+    <div class="stat-grid">
+      <div class="stat"><div class="n" id="tdReviewed">0</div><div class="l">今天已复习</div></div>
+      <div class="stat"><div class="n" id="tdCorrect">0</div><div class="l">今天正确率</div></div>
+      <div class="stat"><div class="n" id="tdNew">0</div><div class="l">今天新学词</div></div>
+      <div class="stat"><div class="n" id="tdLeech">0</div><div class="l">顽固词</div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 学习 ============ -->
+<section class="view" id="view-study"><div class="wrap">
+  <div id="studyEmpty" class="empty">还没有开始学习会话。<br>回到首页点「开始今天的复习」。</div>
+
+  <div id="studyMain" style="display:none">
+    <div class="study-head">
+      <button class="btn sm ghost" id="quitBtn">✕</button>
+      <div class="progress"><i id="progFill" style="width:0%"></i></div>
+      <div class="small muted" id="progText">0/0</div>
+    </div>
+
+    <div class="qcard" id="qcard"></div>
+
+    <div id="inputArea" style="margin-top:12px"></div>
+    <div id="gradeArea" style="margin-top:12px"></div>
+  </div>
+
+  <div id="studyDone" style="display:none">
+    <div class="card center">
+      <div style="font-size:44px">🎉</div>
+      <h2 style="margin-top:6px">本次会话完成</h2>
+      <div class="stat-grid" style="margin-top:14px">
+        <div class="stat"><div class="n" id="doneAcc">—</div><div class="l">正确率</div></div>
+        <div class="stat"><div class="n" id="doneTime">—</div><div class="l">用时</div></div>
+        <div class="stat"><div class="n" id="doneNew">—</div><div class="l">新学词</div></div>
+        <div class="stat"><div class="n" id="doneTom">—</div><div class="l">明日待复习</div></div>
+      </div>
+      <div class="row" style="margin-top:14px;gap:8px">
+        <button class="btn grow" id="againBtn">再来一组</button>
+        <button class="btn primary grow" id="homeBtn">回首页</button>
+      </div>
+      <div class="small muted" id="doneWrongList" style="margin-top:14px;text-align:left"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 统计 ============ -->
+<section class="view" id="view-stats"><div class="wrap">
+  <div class="card">
+    <h3>总览</h3>
+    <div class="stat-grid">
+      <div class="stat"><div class="n" id="stWords">0</div><div class="l">总词数</div></div>
+      <div class="stat"><div class="n" id="stCards">0</div><div class="l">总卡片数</div></div>
+      <div class="stat"><div class="n" id="stStarted">0</div><div class="l">已开始学习</div></div>
+      <div class="stat"><div class="n" id="stMastered">0</div><div class="l">已掌握(盒5)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row spread"><h3 style="margin:0">盒子分布</h3>
+      <select id="boxChartType" style="width:auto;font-size:13px;padding:6px 8px;text-align:left">
+        <option value="ALL">全部卡片</option>
+        <option value="FR_ZH">法→中</option>
+        <option value="ZH_FR">中→法</option>
+        <option value="PRON">发音</option>
+        <option value="GENDER">阴阳性</option>
+        <option value="FEM">阴性变形</option>
+      </select>
+    </div>
+    <div class="bars" id="boxBars"></div>
+    <div class="legend" id="boxLegend"></div>
+  </div>
+
+  <div class="card">
+    <h3>未来 14 天复习量</h3>
+    <div class="bars" id="forecastBars" style="height:100px"></div>
+  </div>
+
+  <div class="card">
+    <div class="row spread"><h3 style="margin:0">学习热力图</h3><span class="tiny muted" id="heatSum"></span></div>
+    <div class="heat" id="heat"></div>
+    <div class="legend" style="margin-top:8px"><span>少</span>
+      <i class="d" style="background:var(--b0);opacity:.35"></i><i style="background:#9fd3a6"></i><i style="background:#5cba6e"></i><i style="background:#2f9e4f"></i><i style="background:#1d7a38"></i><span>多</span></div>
+  </div>
+</div></section>
+
+<!-- ============ 词表 ============ -->
+<section class="view" id="view-words"><div class="wrap">
+  <div class="filters">
+    <input type="text" class="sm" id="wSearch" placeholder="搜索法语 / 中文…">
+    <select id="wTag"><option value="">全部单元</option></select>
+    <select id="wSort">
+      <option value="wrong">按错误次数 ↓</option>
+      <option value="id">按词库顺序</option>
+      <option value="fr">按字母 A→Z</option>
+      <option value="box">按熟练度 ↑</option>
+      <option value="due">按下次复习日期</option>
+      <option value="new">未学习优先</option>
+    </select>
+  </div>
+  <div class="small muted" id="wCount" style="margin-bottom:8px"></div>
+  <div class="tablewrap"><table id="wTable">
+    <thead><tr>
+      <th data-s="fr">单词</th><th data-s="wrong">错 ↕</th><th>中文</th>
+      <th title="法→中">法中</th><th title="中→法">中法</th><th title="发音">发音</th><th title="阴阳性">性</th><th title="阴性变形">变形</th>
+      <th>对</th><th data-s="due">下次复习</th>
+    </tr></thead><tbody></tbody>
+  </table></div>
+</div></section>
+
+<!-- ============ 更多 ============ -->
+<section class="view" id="view-more"><div class="wrap">
+  <div class="card">
+    <div class="row spread"><h3 style="margin:0">顽固词（leech）</h3><span class="chip" id="leechCount">0</span></div>
+    <div class="tiny muted" style="margin-bottom:10px">连续答错 5 次的卡片会被移出常规队列。给它补一个联想 / 例句，再点「已处理」放回队列。</div>
+    <div id="leechList"></div>
+  </div>
+
+  <div class="card">
+    <h3>设置</h3>
+    <div class="settingrow"><div><div class="lab">每次会话张数</div><div class="desc">固定张数，做完就停</div></div>
+      <div class="seg" id="setSize"></div></div>
+    <div class="settingrow"><div><div class="lab">每日新词上限</div><div class="desc">防止新词冲垮复习队列</div></div>
+      <div class="seg" id="setNew"></div></div>
+    <div class="settingrow"><div><div class="lab">严格模式</div><div class="desc">开启后重音符号写错判为错误</div></div>
+      <div class="switch" id="setStrict"></div></div>
+    <div class="settingrow"><div><div class="lab">发音语速</div><div class="desc">朗读法语单词的速度</div></div>
+      <div class="seg" id="setRate"></div></div>
+    <div class="settingrow"><div><div class="lab">深色模式</div><div class="desc">跟随系统 / 手动</div></div>
+      <div class="seg" id="setTheme"></div></div>
+    <div class="settingrow" style="display:block">
+      <div class="lab" style="margin-bottom:8px">启用的卡片类型</div>
+      <div class="tagbtns" id="setTypes"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>数据备份</h3>
+    <div class="tiny muted" style="margin-bottom:10px">iOS Safari 可能清理站点数据，建议每周导出一次。</div>
+    <div class="btn-grid">
+      <button class="btn" id="expBtn">⬇️ 导出进度 JSON</button>
+      <button class="btn" id="impBtn">⬆️ 导入进度 JSON</button>
+      <button class="btn" id="expWordsBtn">⬇️ 导出词库 JSON</button>
+      <button class="btn" id="impWordsBtn">⬆️ 导入词库 CSV/JSON</button>
+    </div>
+    <button class="btn block bad" id="resetBtn" style="margin-top:10px">清空全部学习记录</button>
+    <input type="file" id="fileIn" accept=".json,.csv,.txt" style="display:none">
+    <div class="tiny muted" style="margin-top:10px">词库版本：<span id="bankVer"></span></div>
+  </div>
+
+  <div class="card">
+    <h3>说明</h3>
+    <div class="small muted" style="line-height:1.75">
+      • 每个单词拆成多张独立卡片（法→中 / 中→法 / 发音 / 阴阳性 / 阴性变形），各自独立记熟练度。<br>
+      • Leitner 五盒：答对进一盒（1→3→7→15→30 天），答错直接回第 1 盒并在本次会话里再出现一次。<br>
+      • 中→法判分忽略大小写、首尾空格、冠词；重音符号写错默认算对但会用红色标出正确写法。<br>
+      • 同一个中文对应多个法语词时，词库里的其它正确答案也算对。<br>
+      • 发音卡是自评式：先自己读，再点播放对照，然后诚实地选一致 / 有出入 / 完全不会。
+    </div>
+  </div>
+</div></section>
+
+<nav class="tabs">
+  <button data-v="home" class="active"><span class="ic">🏠</span>首页</button>
+  <button data-v="study"><span class="ic">🎯</span>学习</button>
+  <button data-v="stats"><span class="ic">📊</span>统计</button>
+  <button data-v="words"><span class="ic">📖</span>词表</button>
+  <button data-v="more"><span class="ic">⚙️</span>更多</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="inner" id="modalInner"></div></div>
+
+<script src="./data/words.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
